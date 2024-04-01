@@ -8,3 +8,4 @@ Feature: Basic
         Given The application is running
         When I load the homepage
         Then I see something
+

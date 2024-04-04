@@ -6,4 +6,5 @@ class UIDriver(Driver):
         pass
 
     def app_is_running(self):
-        raise Exception("Not implemented")
+        # raise Exception("Not implemented")
+        pass

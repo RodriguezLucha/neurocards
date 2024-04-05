@@ -59,9 +59,9 @@ def cards_factory(session):
 
         number = Sequence(lambda n: n)
         english_word = factory.Faker("word")
-        english_sentence = factory.Faker("sentence")
+        english_sentence = ""
         portuguese_word = factory.Faker("word")
-        portuguese_sentence = factory.Faker("sentence")
+        portuguese_sentence = ""
 
     yield CardsFactory
 

@@ -4,15 +4,27 @@ from table_parser.table_parser import table_parser
 scenarios("card_management.feature")
 
 
+def fix_table(data):
+    return [dict(zip(data.keys(), values)) for values in zip(*data.values())]
+
+
 @given("no cards are created")
-def no_cards_are_created():
+def no_cards_are_created(clear):
     pass
 
 
 @when(parsers.cfparse("creating cards\n{table}"))
-def creating_cards(table):
+def creating_cards(table, cards_factory, session):
     table_dict = table_parser(table)
-    print(table_dict)
+    table = fix_table(table_dict)
+    for row in table:
+        card = cards_factory.create(
+            number=row["num"],
+            english_word=row["english word"],
+            portuguese_word=row["portuguese word"],
+        )
+        session.add(card)
+        session.commit()
 
 
 @then(parsers.parse("{:d} card is created"))

@@ -1,13 +1,14 @@
 Feature: Card management
-    In order to study cards
-    As a user
-    I should be able to create, read, update, and delete cards
+            In order to study cards
+                As a user
+            I should be able to create, read, update, and delete cards
 
   Scenario: Create cards
     Given no cards are created
     When creating cards
       | num | english word | portuguese word |
       |   1 | the          | o               |
+      |   2 | yes          | sim             |
     Then 1 card is created
 
   Scenario: Edit card
@@ -15,7 +16,7 @@ Feature: Card management
       | num | english word | portuguese word |
       |   1 | the          | o               |
       |   2 | car          | carro           |
-    When updating card 2 with the following values
+    When updating card 2 with values
       | english word | portuguese word |
       | cat          | gato            |
     Then the following cards exist

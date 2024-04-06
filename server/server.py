@@ -1,14 +1,19 @@
 from flask import Flask
 
+import routes.cards
 from models.models import db
-from routes.cards import cards_controller
 
 app = Flask(__name__)
 
 
-@app.route("/cards", methods=["GET"])
-def cards():
-    return cards_controller()
+@app.route("/cards")
+def route_cards():
+    return routes.cards.cards()
+
+
+@app.route("/cards/<int:id>")
+def route_cards_id(id):
+    return routes.cards.cards_id(id)
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (

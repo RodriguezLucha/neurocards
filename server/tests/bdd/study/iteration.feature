@@ -19,7 +19,6 @@ Feature: Card iteration
         When going to the next card
         Then the selected card will be 6
 
-    @skip
     Scenario: Go to next card when at last
         Given the selected pile is B
         And the selected card is 6

@@ -1,5 +1,4 @@
-from api.models.models import Cards, State
-from app import db
+from api.models.models import Cards, State, db
 
 
 def next():

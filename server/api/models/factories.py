@@ -22,7 +22,7 @@ class PilesFactory(SQLAlchemyModelFactory):
         model = Piles
         sqlalchemy_session = db.session
 
-    pile_name = Sequence(lambda n: "pile_{}".format(n))
+    pile_name = "A"
 
 
 class StateFactory(SQLAlchemyModelFactory):
@@ -30,6 +30,6 @@ class StateFactory(SQLAlchemyModelFactory):
         model = State
         sqlalchemy_session = db.session
 
-    index = Sequence(lambda n: n)
+    index = 0
     card_order = None
-    chosen_pile_name = "name"
+    chosen_pile_name = None

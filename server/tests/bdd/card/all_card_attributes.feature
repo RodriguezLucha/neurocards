@@ -1,8 +1,8 @@
 Feature: Card supports multiple attributes
-            In order to make Portugues easier to learn
-                As a user
-            I should be able to specify multiple attributes
-                such as an additional context
+    In order to make Portugues easier to learn
+    As a user
+    I should be able to specify multiple attributes
+    such as an additional context
 
     Scenario: Create a card that has a word and sentence
         Given no cards are created

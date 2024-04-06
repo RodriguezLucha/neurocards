@@ -16,14 +16,15 @@ class Cards(Base, SerializerMixin):
     english_sentence = Column(Text)
     portuguese_word = Column(Text)
     portuguese_sentence = Column(Text)
+    pile_name = Column(Text, ForeignKey("Piles.pile_name"))
 
 
-class Piles(Base):
+class Piles(Base, SerializerMixin):
     __tablename__ = "Piles"
     pile_name = Column(Text, primary_key=True)
 
 
-class State(Base):
+class State(Base, SerializerMixin):
     __tablename__ = "State"
     index = Column(Integer, primary_key=True)
     card_order = Column(MutableList.as_mutable(ARRAY(Integer)))

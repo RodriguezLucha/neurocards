@@ -23,7 +23,6 @@ function Cards () {
   return (
     <div>
       {data.number}
-      <br />
       {data.english_word}
       <button
         onClick={() => {

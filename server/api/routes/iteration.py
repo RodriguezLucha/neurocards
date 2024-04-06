@@ -5,6 +5,10 @@ def next():
     session = db.session
     state = session.query(State).first()
     state.index += 1
+
+    if state.index > len(state.card_order) - 1:
+        state.index = 0
+
     session.commit()
     return {}
 

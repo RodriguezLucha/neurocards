@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from pytest_bdd import given, parsers, scenarios, then, when
 from table_parser.table_parser import table_parser  # type: ignore
 
@@ -10,20 +8,11 @@ from tests.bdd.utils import fix
 scenarios("iteration.feature")
 
 
-# @given("no cards are created")
-# def no_cards_are_created(clear):
-#     # called clear already here
-#     pass
-
-
 @given(parsers.cfparse("the following card database\n{table}"))
 def the_following_card_database(clear, session, table):
-    # parse the table
     table = fix(table_parser(table))
 
-    # iterate the rows
     for row in table:
-        # create the pile if it doesn't exist
         count = session.query(Piles).where(Piles.pile_name == row["pile"]).count()
         if count < 1:
             pile = Piles()
@@ -31,7 +20,6 @@ def the_following_card_database(clear, session, table):
             session.add(pile)
             session.commit()
 
-        # create the cards
         card = CardsFactory.create(
             number=row["num"],
             english_word=row["english word"],
@@ -40,7 +28,6 @@ def the_following_card_database(clear, session, table):
         )
         session.add(card)
 
-    # commit
     session.commit()
 
 

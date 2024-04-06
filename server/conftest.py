@@ -1,6 +1,6 @@
 import pytest
 
-from models.models import Cards, Piles, State, db
+from app.models.models import Cards, Piles, State, db
 from server import app as myapp
 
 

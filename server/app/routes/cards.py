@@ -1,4 +1,4 @@
-from models.models import Cards, db
+from app.models.models import Cards, db
 
 
 def cards():

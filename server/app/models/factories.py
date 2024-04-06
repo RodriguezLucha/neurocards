@@ -2,7 +2,7 @@ import factory
 from factory import Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
-from models.models import Cards, Piles, State, db
+from app.models.models import Cards, Piles, State, db
 
 
 class CardsFactory(SQLAlchemyModelFactory):

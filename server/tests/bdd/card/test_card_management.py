@@ -2,8 +2,8 @@ from pytest_bdd import given, parsers, scenarios, then, when
 from sqlalchemy import delete
 from table_parser.table_parser import table_parser  # type: ignore
 
-from models.factories import CardsFactory
-from models.models import Cards
+from app.models.factories import CardsFactory
+from app.models.models import Cards
 from tests.bdd.common_steps import *  # noqa
 from tests.bdd.utils import fix
 

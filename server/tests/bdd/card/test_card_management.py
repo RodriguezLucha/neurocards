@@ -1,19 +1,12 @@
 from pytest_bdd import given, parsers, scenarios, then, when
+from sqlalchemy import delete
 from table_parser.table_parser import table_parser  # type: ignore
 
 from models.models import Cards
+from tests.bdd.common_steps import *  # noqa
+from tests.bdd.utils import fix
 
 scenarios("card_management.feature")
-
-
-def fix(data):
-    return [dict(zip(data.keys(), values)) for values in zip(*data.values())]
-
-
-@given("no cards are created")
-def no_cards_are_created(clear):
-    # called clear already here
-    pass
 
 
 @when(parsers.cfparse("creating cards\n{table}"))
@@ -69,5 +62,6 @@ def the_following_cards_exist(table, session):
 
 
 @when(parsers.parse("deleting card {card_num}"))
-def deleting_card():
-    pass
+def deleting_card(card_num, session):
+    stmt = delete(Cards).where(Cards.number.in_([card_num]))
+    session.execute(stmt)

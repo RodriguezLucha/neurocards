@@ -32,4 +32,4 @@ Feature: Card management
         When deleting card 1
         Then the following cards exist
             | num | english word | portuguese word |
-            | 2   | cat          | o               |
+            | 2   | car          | carro           |

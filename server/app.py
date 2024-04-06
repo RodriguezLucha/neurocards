@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_migrate import Migrate
+from flask_migrate import Migrate  # type: ignore
 
 from api.models.models import db
 from api.routes.cards import cards, cards_id

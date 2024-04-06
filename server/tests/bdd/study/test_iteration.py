@@ -50,7 +50,7 @@ def the_seleted_pile_is(pile, session):
     state: State = session.query(State).first()  # type: ignore
     state.chosen_pile_name = pile
 
-    cards = session.query(Cards).all()
+    cards = session.query(Cards).where(Cards.pile_name == pile).all()
     card_nums = [c.number for c in cards]
     state.card_order = card_nums
     state.index = 0
@@ -58,9 +58,17 @@ def the_seleted_pile_is(pile, session):
     session.commit()
 
 
-@given(parsers.parse("the selected card is {card}"))
-def the_selected_card_is(card):
-    pass
+@given(parsers.parse("the selected card is {card_num:d}"))
+def the_selected_card_is(card_num, session):
+    state: State = session.query(State).first()  # type: ignore
+    pile_name = state.chosen_pile_name
+    cards = session.query(Cards).where(Cards.pile_name == pile_name).all()
+
+    for i, card in zip(list(range(len(cards))), cards):
+        if card.number == card_num:
+            state.index = i
+            session.add(state)
+            session.commit()
 
 
 def create_state_if_does_not_exist(session):
@@ -72,10 +80,15 @@ def create_state_if_does_not_exist(session):
 
 
 @when("going to the next card")
-def going_to_the_next_card():
-    pass
+def going_to_the_next_card(client):
+    res = client.get("/next")
+    assert res.status_code == 200
 
 
-@then(parsers.parse("the selected card will be {selected}"))
-def the_selected_card_will_be(selected):
-    pass
+@then(parsers.parse("the selected card will be {selected:d}"))
+def the_selected_card_will_be(selected, client):
+    res = client.get("/current")
+    data = res.json
+    assert res.status_code == 200
+    current_card_number = data["number"]
+    assert current_card_number == selected

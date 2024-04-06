@@ -3,6 +3,7 @@ from flask_migrate import Migrate  # type: ignore
 
 from api.models.models import db
 from api.routes.cards import cards, cards_id
+from api.routes.iteration import current, next
 
 app = Flask(__name__)
 
@@ -15,6 +16,16 @@ def route_cards():
 @app.route("/cards/<int:id>")
 def route_cards_id(id):
     return cards_id(id)
+
+
+@app.route("/next")
+def route_next():
+    return next()
+
+
+@app.route("/current")
+def route_current():
+    return current()
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (

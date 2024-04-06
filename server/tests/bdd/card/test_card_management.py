@@ -2,6 +2,7 @@ from pytest_bdd import given, parsers, scenarios, then, when
 from sqlalchemy import delete
 from table_parser.table_parser import table_parser  # type: ignore
 
+from models.factories import CardsFactory
 from models.models import Cards
 from tests.bdd.common_steps import *  # noqa
 from tests.bdd.utils import fix
@@ -10,10 +11,10 @@ scenarios("card_management.feature")
 
 
 @when(parsers.cfparse("creating cards\n{table}"))
-def creating_cards(table, cards_factory, session):
+def creating_cards(table, session):
     table = fix(table_parser(table))
     for row in table:
-        card = cards_factory.create(
+        card = CardsFactory.create(
             number=row["num"],
             english_word=row["english word"],
             portuguese_word=row["portuguese word"],
@@ -23,16 +24,17 @@ def creating_cards(table, cards_factory, session):
 
 
 @then(parsers.parse("{num_cards:d} cards are created"))
-def card_is_created(num_cards, session):
-    num_rows = session.query(Cards).count()
-    assert num_rows == num_cards
+def card_is_created(num_cards, session, client):
+    res = client.get("/cards")
+    data = res.json
+    assert len(data) == num_cards
 
 
 @given(parsers.cfparse("the following existing cards\n{table}"))
-def the_following_existing_cards(clear, table, cards_factory, session):
+def the_following_existing_cards(clear, table, session):
     table = fix(table_parser(table))
     for row in table:
-        card = cards_factory.create(
+        card = CardsFactory.create(
             number=row["num"],
             english_word=row["english word"],
             portuguese_word=row["portuguese word"],

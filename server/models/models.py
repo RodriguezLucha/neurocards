@@ -1,13 +1,15 @@
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ARRAY, Column, ForeignKey, Integer, Text
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import DeclarativeBase, relationship
+from sqlalchemy_serializer import SerializerMixin  # type: ignore
 
 
 class Base(DeclarativeBase):
     pass
 
 
-class Cards(Base):
+class Cards(Base, SerializerMixin):
     __tablename__ = "Cards"
     number = Column(Integer, primary_key=True)
     english_word = Column(Text)
@@ -27,3 +29,6 @@ class State(Base):
     card_order = Column(MutableList.as_mutable(ARRAY(Integer)))
     chosen_pile_name = Column(Text, ForeignKey("Piles.pile_name"))
     chosen_pile = relationship("Piles")
+
+
+db = SQLAlchemy(model_class=Base)

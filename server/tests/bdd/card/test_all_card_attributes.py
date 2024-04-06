@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from pytest_bdd import parsers, scenarios, then, when
 from table_parser.table_parser import table_parser  # type: ignore
 

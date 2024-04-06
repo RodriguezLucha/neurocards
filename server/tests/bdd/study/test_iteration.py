@@ -4,7 +4,7 @@ from pytest_bdd import given, parsers, scenarios, then, when
 from table_parser.table_parser import table_parser  # type: ignore
 
 from api.models.factories import CardsFactory, StateFactory
-from api.models.models import Piles, State
+from api.models.models import Cards, Piles, State
 from tests.bdd.utils import fix
 
 scenarios("iteration.feature")
@@ -49,9 +49,18 @@ def the_seleted_pile_is(pile, session):
     create_state_if_does_not_exist(session)
     state: State = session.query(State).first()  # type: ignore
     state.chosen_pile_name = pile
-    pprint(state.to_dict())
+
+    cards = session.query(Cards).all()
+    card_nums = [c.number for c in cards]
+    state.card_order = card_nums
+    state.index = 0
     session.add(state)
     session.commit()
+
+
+@given(parsers.parse("the selected card is {card}"))
+def the_selected_card_is(card):
+    pass
 
 
 def create_state_if_does_not_exist(session):

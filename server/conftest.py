@@ -16,6 +16,6 @@ def session(app):
 
 @pytest.fixture()
 def clear(session):
+    session.query(State).delete()
     session.query(Cards).delete()
     session.query(Piles).delete()
-    session.query(State).delete()

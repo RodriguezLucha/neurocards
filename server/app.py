@@ -3,7 +3,7 @@ from flask_migrate import Migrate  # type: ignore
 
 from api.models.models import db
 from api.routes.cards import cards, cards_id
-from api.routes.iteration import current, next
+from api.routes.iteration import current, next, previous
 
 app = Flask(__name__)
 
@@ -21,6 +21,11 @@ def route_cards_id(id):
 @app.route("/next")
 def route_next():
     return next()
+
+
+@app.route("/previous")
+def route_previous():
+    return previous()
 
 
 @app.route("/current")

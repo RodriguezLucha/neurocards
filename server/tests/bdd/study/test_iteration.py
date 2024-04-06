@@ -72,6 +72,12 @@ def going_to_the_next_card(client):
     assert res.status_code == 200
 
 
+@when("going to the previous card")
+def going_to_the_previous_card(client):
+    res = client.get("/previous")
+    assert res.status_code == 200
+
+
 @then(parsers.parse("the selected card will be {selected:d}"))
 def the_selected_card_will_be(selected, client):
     res = client.get("/current")

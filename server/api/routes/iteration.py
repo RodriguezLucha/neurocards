@@ -13,6 +13,18 @@ def next():
     return {}
 
 
+def previous():
+    session = db.session
+    state = session.query(State).first()
+    state.index -= 1
+
+    if state.index < 0:
+        state.index = len(state.card_order) - 1
+
+    session.commit()
+    return {}
+
+
 def current():
     session = db.session
     state = session.query(State).first()

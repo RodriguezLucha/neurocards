@@ -25,16 +25,14 @@ Feature: Card iteration
         When going to the next card
         Then the selected card will be 4
 
-    @skip
     Scenario: Go to the previous card
         Given the selected pile is B
         And the selected card is 5
-        When going to the next card
+        When going to the previous card
         Then the selected card will be 4
 
-    @skip
     Scenario: Go to the previous card when at first
         Given the selected pile is B
         And the selected card is 4
-        When going to the next card
+        When going to the previous card
         Then the selected card will be 6

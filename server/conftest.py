@@ -1,7 +1,7 @@
 import pytest
 
-from app.models.models import Cards, Piles, State, db
-from server import app as myapp
+from api.models.models import Cards, Piles, State, db
+from app import app as myapp
 
 
 @pytest.fixture(scope="session")

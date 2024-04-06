@@ -1,7 +1,7 @@
 from pytest_bdd import parsers, scenarios, then, when
 from table_parser.table_parser import table_parser  # type: ignore
 
-from app.models.models import Cards
+from api.models.models import Cards
 from tests.bdd.common_steps import *  # noqa
 from tests.bdd.utils import fix
 

@@ -1,7 +1,8 @@
 from flask import Flask
+from flask_migrate import Migrate
 
-from app.models.models import db
-from app.routes.cards import cards, cards_id
+from api.models.models import db
+from api.routes.cards import cards, cards_id
 
 app = Flask(__name__)
 
@@ -19,6 +20,7 @@ def route_cards_id(id):
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     "postgresql://postgres:password@localhost/neurocards"
 )
+migrate = Migrate(app, db)
 db.init_app(app)
 
 if __name__ == "__main__":

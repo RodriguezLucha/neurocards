@@ -1,4 +1,4 @@
-from pytest_bdd import given, parsers
+from pytest_bdd import given, parsers, when
 from table_parser.table_parser import table_parser  # type: ignore
 
 from api.models.factories import CardsFactory, StateFactory
@@ -68,3 +68,11 @@ def the_selected_card_is(card_num, session):
             state.index = i
             session.add(state)
             session.commit()
+
+
+@when("viewing the card")
+def viewing_the_card(request, client):
+    res = client.get("/current")
+    assert res.status_code == 200
+    data = res.json
+    request.data = data

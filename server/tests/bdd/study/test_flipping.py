@@ -20,14 +20,6 @@ def is_facing_the_back(session):
     session.commit()
 
 
-@when("viewing the card")
-def viewing_the_card(request, client):
-    res = client.get("/current")
-    assert res.status_code == 200
-    data = res.json
-    request.data = data
-
-
 @when("flipping the card")
 def flipping_the_card(client):
     res = client.get("/flip")

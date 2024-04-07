@@ -3,6 +3,27 @@ import random
 from api.models.models import Cards, State, db
 
 
+def hide():
+    session = db.session
+    state = session.query(State).first()
+
+    # hide the current card
+    index = state.index
+    card_number = state.card_order[index]
+    card = session.query(Cards).where(Cards.number == card_number).first()
+
+    # go to the next card
+    state.index += 1
+
+    if state.index > len(state.card_order) - 1:
+        state.index = 0
+
+    state.show_front = True
+
+    session.commit()
+    return {}
+
+
 def next():
     session = db.session
     state = session.query(State).first()

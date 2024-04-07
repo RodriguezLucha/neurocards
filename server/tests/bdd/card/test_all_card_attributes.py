@@ -22,6 +22,7 @@ def created_card_with_all_att(table, session):
     card.english_sentence = data["english sentence"]
     card.portuguese_word = data["portuguese word"]
     card.portuguese_sentence = data["portuguese sentence"]
+    card.hidden = False
 
     session.add(card)
     session.commit()

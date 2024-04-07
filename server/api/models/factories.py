@@ -15,6 +15,7 @@ class CardsFactory(SQLAlchemyModelFactory):
     english_sentence = ""
     portuguese_word = factory.Faker("word")  # type: ignore
     portuguese_sentence = ""
+    hidden = False
 
 
 class PilesFactory(SQLAlchemyModelFactory):

@@ -1,7 +1,7 @@
 Feature: Card hiding
-            In order to focus on the cards that need attention
-                As a user
-            I should be able to hide already learned cards
+    In order to focus on the cards that need attention
+    As a user
+    I should be able to hide already learned cards
 
     Background:
         Given the following card database
@@ -12,17 +12,16 @@ Feature: Card hiding
             | 4   | man          | homem           | A    | no     |
             | 5   | woman        | mulher          | A    | no     |
 
-    @skip
     Scenario: Hiding an already learned card
         Given the selected pile is A
-            And the selected card is 3
+        And the selected card is 3
         When hiding the current card
         Then the selected card will be 4
-            And the card database has
-                | num | english word | portuguese word | pile | hidden |
-                | 1   | the          | o               | A    | no     |
-                | 2   | car          | carro           | A    | no     |
-                | 3   | cat          | gato            | A    | yes    |
-                | 4   | man          | homem           | A    | no     |
-                | 5   | woman        | mulher          | A    | no     |
-            And the card order will be [1, 2, 4, 5]
+        And the card database has
+            | num | english word | portuguese word | pile | hidden |
+            | 1   | the          | o               | A    | no     |
+            | 2   | car          | carro           | A    | no     |
+            | 3   | cat          | gato            | A    | yes    |
+            | 4   | man          | homem           | A    | no     |
+            | 5   | woman        | mulher          | A    | no     |
+        And the card order will be [1, 2, 4, 5]

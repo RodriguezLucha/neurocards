@@ -20,3 +20,4 @@ Feature: Card supports multiple attributes
             | portuguese word     | o       |
             | english sentence    | the car |
             | portuguese sentence | o carro |
+

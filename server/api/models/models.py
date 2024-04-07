@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ARRAY, Column, ForeignKey, Integer, Text, Boolean
+from sqlalchemy import ARRAY, Boolean, Column, ForeignKey, Integer, Text
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy_serializer import SerializerMixin  # type: ignore
@@ -17,6 +17,7 @@ class Cards(Base, SerializerMixin):
     portuguese_word = Column(Text)
     portuguese_sentence = Column(Text)
     pile_name = Column(Text, ForeignKey("Piles.pile_name"))
+    hidden = Column(Boolean, default=False)
 
 
 class Piles(Base, SerializerMixin):

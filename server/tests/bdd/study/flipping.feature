@@ -1,7 +1,7 @@
 Feature: Card iteration
-            In order to study all the cards
-                As a user
-            I should be able to iterate through all cards
+    In order to study all the cards
+    As a user
+    I should be able to iterate through all cards
 
     Background:
         Given the following card database
@@ -13,26 +13,32 @@ Feature: Card iteration
             | 5   | woman        | mulher          | B    |
             | 6   | boy          | menino          | B    |
 
-    @skip
     Scenario: Viewing front of the card
-        Given the selected card is 4 and is facing the front
+        Given the selected pile is B
+        And the selected card is 4
+        And is facing the front
         When viewing the card
         Then the word is man
 
-    @skip
     Scenario: Viewing back of the card
-        Given the selected card is 4 and is facing the back
+        Given the selected pile is B
+        Given the selected card is 4
+        And is facing the back
         When viewing the card
         Then the word is homem
 
-    @skip
     Scenario: Flipping the front to back
-        Given the selected card is 4 and is facing the front
+        Given the selected pile is B
+        And the selected card is 4
+        And is facing the front
         When flipping the card
+        And viewing the card
         Then the word is homem
 
-    @skip
     Scenario: Flipping the back to front
-        Given the selected card is 4 and is facing the back
+        Given the selected pile is B
+        And the selected card is 4
+        And is facing the back
         When flipping the card
+        And viewing the card
         Then the word is man

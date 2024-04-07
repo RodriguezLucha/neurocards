@@ -13,6 +13,15 @@ def next():
     return {}
 
 
+def flip():
+    session = db.session
+    state = session.query(State).first()
+    state.show_front = not state.show_front
+
+    session.commit()
+    return {}
+
+
 def previous():
     session = db.session
     state = session.query(State).first()
@@ -31,8 +40,8 @@ def current():
     index = state.index
     card_number = state.card_order[index]
     card = session.query(Cards).where(Cards.number == card_number).first()
-    
-    return {
-        "number": card.number,
-        "word": card.english_word
-    }
+    word = card.english_word
+    if not state.show_front:
+        word = card.portuguese_word
+
+    return {"number": card.number, "word": word}

@@ -85,3 +85,24 @@ def the_selected_card_will_be(selected, client):
     assert res.status_code == 200
     current_card_number = data["number"]
     assert current_card_number == selected
+
+
+def convert_order(card_order):
+    order = card_order.split(",")
+    order = [int(x) for x in order]
+    return order
+
+
+@given(parsers.parse("the card order is [{card_order}]"))
+def the_card_order_is(session, card_order):
+    order = convert_order(card_order)
+    state = session.query(State).first()
+    state.card_order = order
+    session.add(state)
+    session.commit()
+
+
+@then(parsers.parse("the card order will be [{card_order}]"))
+def the_card_order_will_be(request, card_order):
+    order = convert_order(card_order)
+    assert request.data["card_order"] == order

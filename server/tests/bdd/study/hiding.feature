@@ -16,7 +16,9 @@ Feature: Card hiding
         Given the selected pile is A
         And the selected card is 3
         When hiding the current card
+        And viewing the card
         Then the selected card will be 4
+        And the card order will be [1,2,4,5]
         And the card database has
             | num | english word | portuguese word | pile | hidden |
             | 1   | the          | o               | A    | no     |
@@ -24,4 +26,3 @@ Feature: Card hiding
             | 3   | cat          | gato            | A    | yes    |
             | 4   | man          | homem           | A    | no     |
             | 5   | woman        | mulher          | A    | no     |
-        And the card order will be [1, 2, 4, 5]

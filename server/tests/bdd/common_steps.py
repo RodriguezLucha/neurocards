@@ -106,3 +106,8 @@ def the_card_order_is(session, card_order):
 def the_card_order_will_be(request, card_order):
     order = convert_order(card_order)
     assert request.data["card_order"] == order
+
+
+@then(parsers.parse("the card number is {card_num:d}"))
+def the_card_num_is(request, card_num):
+    assert request.data["number"] == card_num

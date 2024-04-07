@@ -18,7 +18,7 @@ Feature: Card shuffling
         When shuffling the pile with the reverse strategy
         And viewing the card
         Then the card number is 5
-        Then the card order will be [5,4,3,2,1]
+        And the card order will be [5,4,3,2,1]
     Scenario: Resetting the order
         Given the selected pile is A
         And the card order is [5,4,3,2,1]

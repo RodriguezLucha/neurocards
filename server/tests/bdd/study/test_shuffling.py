@@ -1,4 +1,4 @@
-from pytest_bdd import parsers, scenarios, then, when
+from pytest_bdd import scenarios, when
 
 from tests.bdd.common_steps import *  # noqa
 
@@ -15,11 +15,6 @@ def shuffling_the_pile_with_reverse(client, mocker):
 
     res = client.get("/shuffle")
     assert res.status_code == 200
-
-
-@then(parsers.parse("the card number is {card_num:d}"))
-def the_card_num_is(request, card_num):
-    assert request.data["number"] == card_num
 
 
 @when("resetting the order")

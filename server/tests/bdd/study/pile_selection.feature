@@ -1,27 +1,28 @@
 Feature: Pile selection
-            In to limit focus to a subset of cards
-                As a user
-            I should be able to select a specific pile to focus effort on learning
+    In to limit focus to a subset of cards
+    As a user
+    I should be able to select a specific pile to focus effort on learning
 
     Background:
-        Given the following existing cards and piles
+        Given the following card database
             | num | english word | portuguese word | pile |
             | 1   | the          | o               | A    |
             | 2   | car          | carro           | A    |
             | 3   | boy          | menino          | B    |
             | 4   | cat          | gato            | B    |
 
-    @skip
     Scenario: Select the first pile to study
         Given no pile is selected
         When selecting pile B
-        Then the selected card should be 3 facing the front
+        And viewing the card
+        Then the card number is 3
+        And the card order will be [3,4]
 
-    @skip
     Scenario: Select another pile after one is selected
         Given the selected pile is B
         When selecting pile A
-        Then the selected card should be 1 facing the front
+        And viewing the card
+        Then the card number is 1
 
     @skip
     Scenario: Unset the selected pile

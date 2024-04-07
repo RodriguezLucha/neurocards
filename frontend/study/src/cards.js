@@ -6,7 +6,8 @@ import {
   getPrevious,
   getFlip,
   getReset,
-  getShuffle
+  getShuffle,
+  getHide
 } from './api'
 
 function Cards () {
@@ -47,15 +48,23 @@ function Cards () {
       queryClient.invalidateQueries({ queryKey: ['cardData'] })
     }
   })
+  const hideMutation = useMutation({
+    mutationFn: getHide,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cardData'] })
+    }
+  })
 
   if (isPending) return 'Loading...'
   if (error) return 'An error has occurred: ' + error.message
 
   return (
     <div>
-      <div>Card Number {data.number}</div>
-      <div>Order:{data.card_order.join(', ')}</div>
-      <div>Word:{data.word}</div>
+      <div id='number'>#{data.number}</div>
+      <div id='order'>Order:{data.card_order.join(', ')}</div>
+      <div id='front'>Side:{data.front ? 'Front' : 'Back'}</div>
+      <div id='word'>{data.word}</div>
+      <div id='sentence'>{data.sentence}</div>
 
       <div>
         {makeButton(previousMutation, 'Previous')}
@@ -63,6 +72,7 @@ function Cards () {
         {makeButton(flipMutation, 'Flip')}
         {makeButton(shuffleMutation, 'Shuffle')}
         {makeButton(resetMutation, 'Reset')}
+        {makeButton(hideMutation, 'Hide')}
       </div>
     </div>
   )

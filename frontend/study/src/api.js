@@ -22,5 +22,17 @@ const getPrevious = async () => {
   const response = await fetch('/previous')
   return response.json()
 }
+const getHide = async () => {
+  const response = await fetch('/hide')
+  return response.json()
+}
 
-export { getCurrent, getNext, getPrevious, getFlip, getReset, getShuffle }
+export {
+  getCurrent,
+  getNext,
+  getPrevious,
+  getFlip,
+  getReset,
+  getShuffle,
+  getHide
+}

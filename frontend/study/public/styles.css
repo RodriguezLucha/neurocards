@@ -1,0 +1,24 @@
+#number {
+    font-size: small;
+}
+
+#order {
+    font-size: small
+}
+
+#word {
+    font-size: x-large;
+    padding: 50px;
+}
+#sentence {
+    font-size: x-large;
+    padding: 50px;
+}
+
+#front {
+   font-size: small;
+}
+
+button {
+    margin: 10px;
+}

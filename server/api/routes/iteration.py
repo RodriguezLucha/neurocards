@@ -100,16 +100,44 @@ def previous():
 def current():
     session = db.session
     state = session.query(State).first()
+
+    if state.chosen_pile_name is None:
+        return {
+            "number": 0,
+            "word": "-",
+            "sentence": "-",
+            "card_order": [],
+            "front": True,
+        }
+
     index = state.index
     card_number = state.card_order[index]
     card = session.query(Cards).where(Cards.number == card_number).first()
 
     word = card.english_word
+    sentence = card.english_sentence
     if not state.show_front:
         word = card.portuguese_word
+        sentence = card.portuguese_sentence
 
     return {
         "number": card.number,
         "word": word,
+        "sentence": sentence,
         "card_order": state.card_order,
+        "front": state.show_front,
     }
+
+
+def switch_pile(pile):
+    session = db.session
+    state = session.query(State).first()
+    state.chosen_pile_name = pile
+    cards = session.query(Cards).where(Cards.pile_name == pile).all()
+    card_numbers = [x.number for x in cards]
+    state.index = 0
+    state.show_front = True
+    state.card_order = sorted(card_numbers)
+    session.add(state)
+    session.commit()
+    return {}

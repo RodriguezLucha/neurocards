@@ -33,3 +33,4 @@ class StateFactory(SQLAlchemyModelFactory):
     index = 0
     card_order = None
     chosen_pile_name = None
+    show_front = True

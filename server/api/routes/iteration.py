@@ -31,4 +31,8 @@ def current():
     index = state.index
     card_number = state.card_order[index]
     card = session.query(Cards).where(Cards.number == card_number).first()
-    return card.to_dict()
+    
+    return {
+        "number": card.number,
+        "word": card.english_word
+    }

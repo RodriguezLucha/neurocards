@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ARRAY, Column, ForeignKey, Integer, Text
+from sqlalchemy import ARRAY, Column, ForeignKey, Integer, Text, Boolean
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy_serializer import SerializerMixin  # type: ignore
@@ -30,6 +30,7 @@ class State(Base, SerializerMixin):
     card_order = Column(MutableList.as_mutable(ARRAY(Integer)))
     chosen_pile_name = Column(Text, ForeignKey("Piles.pile_name"))
     chosen_pile = relationship("Piles")
+    show_front = Column(Boolean, default=True)
 
 
 db = SQLAlchemy(model_class=Base)

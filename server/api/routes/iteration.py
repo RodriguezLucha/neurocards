@@ -9,6 +9,8 @@ def next():
     if state.index > len(state.card_order) - 1:
         state.index = 0
 
+    state.show_front = True
+
     session.commit()
     return {}
 
@@ -29,6 +31,8 @@ def previous():
 
     if state.index < 0:
         state.index = len(state.card_order) - 1
+
+    state.show_front = True
 
     session.commit()
     return {}

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { getCurrent, getNext, getPrevious } from './api'
+import { getCurrent, getNext, getPrevious, getFlip } from './api'
 
 function Cards () {
   const queryClient = useQueryClient()
@@ -22,6 +22,12 @@ function Cards () {
       queryClient.invalidateQueries({ queryKey: ['cardData'] })
     }
   })
+  const flipMutation = useMutation({
+    mutationFn: getFlip,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cardData'] })
+    }
+  })
 
   if (isPending) return 'Loading...'
   if (error) return 'An error has occurred: ' + error.message
@@ -29,7 +35,7 @@ function Cards () {
   return (
     <div>
       {data.number}
-      {data.english_word}
+      {data.word}
       <button
         onClick={() => {
           previousMutation.mutate()
@@ -43,6 +49,13 @@ function Cards () {
         }}
       >
         Next
+      </button>
+      <button
+        onClick={() => {
+          flipMutation.mutate()
+        }}
+      >
+        Flip
       </button>
     </div>
   )

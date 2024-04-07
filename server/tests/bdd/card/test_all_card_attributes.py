@@ -9,7 +9,7 @@ scenarios("all_card_attributes.feature")
 
 
 @when(parsers.cfparse("creating a card with all attributes filled in\n{table}"))
-def created_card_with_all_att(table, session):
+def created_card_with_all_att(clear, table, session):
     table = fix(table_parser(table))
     card = Cards()
 

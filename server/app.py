@@ -3,7 +3,17 @@ from flask_migrate import Migrate  # type: ignore
 
 from api.models.models import db
 from api.routes.cards import cards, cards_id
-from api.routes.iteration import current, flip, hide, next, previous, reset, shuffle, switch_pile
+from api.routes.iteration import (
+    current,
+    flip,
+    hide,
+    next,
+    previous,
+    reset,
+    seed,
+    shuffle,
+    switch_pile,
+)
 
 app = Flask(__name__)
 
@@ -11,6 +21,7 @@ app = Flask(__name__)
 @app.route("/cards")
 def route_cards():
     return cards()
+
 
 @app.route("/switch/<pile>")
 def route_switch_pile(pile):
@@ -20,6 +31,11 @@ def route_switch_pile(pile):
 @app.route("/cards/<int:id>")
 def route_cards_id(id):
     return cards_id(id)
+
+
+@app.route("/seed")
+def route_seed():
+    return seed()
 
 
 @app.route("/next")

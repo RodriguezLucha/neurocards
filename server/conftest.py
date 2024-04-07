@@ -19,3 +19,4 @@ def clear(session):
     session.query(State).delete()
     session.query(Cards).delete()
     session.query(Piles).delete()
+    session.commit()

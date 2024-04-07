@@ -1,6 +1,50 @@
 import random
 
-from api.models.models import Cards, State, db
+from api.models.models import Cards, Piles, State, db
+
+
+def seed():
+    session = db.session
+    session.query(State).delete()
+    session.query(Cards).delete()
+    session.query(Piles).delete()
+
+    def add_pile(name):
+        pile = Piles(pile_name=name)
+        session.add(pile)
+        session.commit()
+
+    add_pile("A")
+    add_pile("B")
+
+    def add_card(num, eng_word, eng_sen, por_word, por_sen, pile):
+        card = Cards(
+            number=num,
+            english_word=eng_word,
+            english_sentence=eng_sen,
+            portuguese_word=por_word,
+            portuguese_sentence=por_sen,
+            pile_name=pile,
+            hidden=False,
+        )
+        session.add(card)
+        session.commit()
+
+    add_card(1, "the", "the man", "o", "o homem", "A")
+    add_card(2, "dog", "the dog", "cachorro", "o cachorro", "A")
+    add_card(3, "cat", "the cat", "gato", "o gato", "A")
+    add_card(4, "man", "the man", "homem", "o homem", "A")
+    add_card(5, "black", "black cat", "preto", "gato preto", "A")
+    add_card(6, "keys", "the keys", "chaves", "o chaves", "A")
+    add_card(7, "good night", "good night sir", "boa noite", "boa noite senhor", "B")
+    add_card(8, "thank you", "thank you cat", "obrigado", "obrigado gato", "B")
+    add_card(
+        9, "you're welcome", "you're welcome ma'am", "de nada", "de nada senhora", "B"
+    )
+
+    # switch_pile("A")
+
+    return {}
 
 
 def remove_element(array, index):

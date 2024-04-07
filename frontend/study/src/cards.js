@@ -60,13 +60,14 @@ function Cards () {
 
   return (
     <div>
+      <div id='pile'>Pile: {data.pile}</div>
       <div id='number'>#{data.number}</div>
       <div id='order'>Order:{data.card_order.join(', ')}</div>
       <div id='front'>Side:{data.front ? 'Front' : 'Back'}</div>
       <div id='word'>{data.word}</div>
       <div id='sentence'>{data.sentence}</div>
 
-      <div>
+      <div id="button_container">
         {makeButton(previousMutation, 'Previous')}
         {makeButton(nextMutation, 'Next')}
         {makeButton(flipMutation, 'Flip')}

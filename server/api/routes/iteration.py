@@ -1,5 +1,6 @@
 import random
 
+from api.models.factories import StateFactory
 from api.models.models import Cards, Piles, State, db
 
 
@@ -42,7 +43,10 @@ def seed():
         9, "you're welcome", "you're welcome ma'am", "de nada", "de nada senhora", "B"
     )
 
-    # switch_pile("A")
+    state = StateFactory()
+    session.add(state)
+    session.commit()
+    switch_pile("A")
 
     return {}
 
@@ -152,6 +156,7 @@ def current():
             "sentence": "-",
             "card_order": [],
             "front": True,
+            "pile": "-",
         }
 
     index = state.index
@@ -160,6 +165,7 @@ def current():
 
     word = card.english_word
     sentence = card.english_sentence
+    pile = card.pile_name
     if not state.show_front:
         word = card.portuguese_word
         sentence = card.portuguese_sentence
@@ -170,6 +176,7 @@ def current():
         "sentence": sentence,
         "card_order": state.card_order,
         "front": state.show_front,
+        "pile": pile,
     }
 
 

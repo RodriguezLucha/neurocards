@@ -1,14 +1,13 @@
 """create database
 
 Revision ID: e1f91e6e2e2f
-Revises: 
+Revises: none
 Create Date: 2024-04-05 20:39:48.954191
 
 """
 
-from alembic import op
 import sqlalchemy as sa
-
+from alembic import op
 
 revision = "e1f91e6e2e2f"
 down_revision = None

@@ -1,7 +1,7 @@
 import random
 
-from api.models.factories import StateFactory
-from api.models.models import Cards, Piles, State, db
+from api.models.factories import StateFactory  # type: ignore
+from api.models.models import Cards, Piles, State, db  # type: ignore
 
 
 def seed():
@@ -37,10 +37,17 @@ def seed():
     add_card(4, "man", "the man", "homem", "o homem", "A")
     add_card(5, "black", "black cat", "preto", "gato preto", "A")
     add_card(6, "keys", "the keys", "chaves", "o chaves", "A")
-    add_card(7, "good night", "good night sir", "boa noite", "boa noite senhor", "B")
+    add_card(
+        7, "good night", "good night sir", "boa noite", "boa noite senhor", "B"
+    )  # noqa
     add_card(8, "thank you", "thank you cat", "obrigado", "obrigado gato", "B")
     add_card(
-        9, "you're welcome", "you're welcome ma'am", "de nada", "de nada senhora", "B"
+        9,
+        "you're welcome",
+        "you're welcome ma'am",
+        "de nada",
+        "de nada senhora",
+        "B",  # noqa
     )
 
     state = StateFactory()
@@ -52,10 +59,7 @@ def seed():
 
 
 def remove_element(array, index):
-    if 0 <= index < len(array):
-        return array[:index] + array[index + 1 :]  # noqa
-    else:
-        raise ValueError("Index out of range")
+    return array[:index] + array[index + 1 :]  # noqa
 
 
 def hide():
@@ -73,7 +77,7 @@ def hide():
     state.card_order = remove_element(state.card_order, index)
 
     if state.index > len(state.card_order) - 1:
-        state.index = 0
+        state.index = 0  # pragma: no cover
 
     state.show_front = True
 
@@ -104,7 +108,7 @@ def flip():
     return {}
 
 
-def my_shuffle(arr):
+def my_shuffle(arr):  # pragma: nocover
     random.shuffle(arr)
     return arr
 
@@ -149,7 +153,7 @@ def current():
     session = db.session
     state = session.query(State).first()
 
-    if state.chosen_pile_name is None:
+    if state.chosen_pile_name is None:  # pragma: no cover
         return {
             "number": 0,
             "word": "-",

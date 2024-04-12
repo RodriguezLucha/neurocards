@@ -1,14 +1,17 @@
 import csv
+import os
 
+from api.models.models import Cards, Piles, State
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from api.models.models import Cards, Piles, State
+url = os.environ["POSTGRES_URL"]
+csv_file_path = os.environ["CSV_PATH"]
 
-url = "postgresql://postgres:password@localhost/neurocards"
+
 engine = create_engine(url)
 session = scoped_session(sessionmaker(bind=engine))
-csv_file_path = "/Users/rudy/Documents/flashcards.csv"
+
 pile_number = 1
 
 session.query(State).delete()
@@ -24,7 +27,13 @@ with open(csv_file_path, mode="r", encoding="utf-8") as file:
             first = False
             continue
 
-        count = session.query(Piles).where(Piles.pile_name == str(pile_number)).count()
+        count = (
+            session.query(Piles)
+            .where(
+                Piles.pile_name == str(pile_number),
+            )
+            .count()
+        )
         if count < 1:
             pile = Piles(pile_name=str(pile_number))
             session.add(pile)
@@ -36,6 +45,7 @@ with open(csv_file_path, mode="r", encoding="utf-8") as file:
         portuguese_word = row[3].strip()
         portuguese_sentence = row[4].strip()
         pile_name = str(pile_number)
+        print(number)
         card = Cards(
             number=number,
             english_word=english_word,
@@ -49,3 +59,14 @@ with open(csv_file_path, mode="r", encoding="utf-8") as file:
 
         if (int(number) % 20) == 0:
             pile_number += 1
+
+count = session.query(State).count()
+if count < 1:
+    state = State(
+        index=0,
+        card_order=None,
+        chosen_pile_name=None,
+        show_front=True,
+    )
+    session.add(state)
+    session.commit()

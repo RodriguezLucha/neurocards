@@ -1,4 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
+// import { useHotkeys } from 'react-hotkeys-hook'
+import { useState, useKeyDown } from 'react'
 
 import {
   getCurrent,
@@ -9,54 +11,36 @@ import {
   getShuffle,
   getHide
 } from './api'
+import { MakeButton } from './MakeButton'
 
 function Cards () {
-  const queryClient = useQueryClient()
+  const [count, setCount] = useState(0)
+  // useHotkeys('shift+=', () => setCount(count + 1), [count])
+  // useHotkeys('shift+-', () => setCount(count - 1), [count])
+
+  // useKeyDown(['Control', 'Enter'], () => {
+  //   setCount(count + 1)
+  // })
 
   const { isPending, error, data } = useQuery({
     queryFn: getCurrent,
     queryKey: ['cardData']
   })
-
-  const previousMutation = useMutation({
-    mutationFn: getPrevious,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cardData'] })
-    }
-  })
-  const nextMutation = useMutation({
-    mutationFn: getNext,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cardData'] })
-    }
-  })
-  const flipMutation = useMutation({
-    mutationFn: getFlip,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cardData'] })
-    }
-  })
-  const shuffleMutation = useMutation({
-    mutationFn: getShuffle,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cardData'] })
-    }
-  })
-  const resetMutation = useMutation({
-    mutationFn: getReset,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cardData'] })
-    }
-  })
-  const hideMutation = useMutation({
-    mutationFn: getHide,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cardData'] })
-    }
-  })
+  const [practiceInput, setPracticeInput] = useState('')
+  // useHotkeys('meta+shift+k', () => setPracticeInput('reset'), [practiceInput])
 
   if (isPending) return 'Loading...'
   if (error) return 'An error has occurred: ' + error.message
+
+  function handleKeyDown (e) {
+    if (e.shiftKey && e.metaKey && e.key == 'k') {
+      setPracticeInput('')
+      setCount(count + 1)
+    }
+    if (e.ctrlKey && e.key == 'l') {
+      setCount(0)
+    }
+  }
 
   return (
     <div>
@@ -64,30 +48,34 @@ function Cards () {
       <div id='number'>#{data.number}</div>
       <div id='order'>Order:{data.card_order.join(', ')}</div>
       <div id='front'>Side:{data.front ? 'Front' : 'Back'}</div>
+      <div id='pile'>Counter: {count}</div>
       <div id='word'>{data.word}</div>
       <div id='sentence'>{data.sentence}</div>
 
-      <div id="button_container">
-        {makeButton(previousMutation, 'Previous')}
-        {makeButton(nextMutation, 'Next')}
-        {makeButton(flipMutation, 'Flip')}
-        {makeButton(shuffleMutation, 'Shuffle')}
-        {makeButton(resetMutation, 'Reset')}
-        {makeButton(hideMutation, 'Hide')}
+      <form autoComplete='off'>
+        <label autoComplete='new-password'>
+          <input
+            id='practiceSentenceIn'
+            value={practiceInput}
+            type='text'
+            role='presentation'
+            onChange={e => setPracticeInput(e.target.value)}
+            onKeyDown={e => handleKeyDown(e)}
+            autoComplete='off'
+          />
+        </label>
+      </form>
+
+      <div id='button_container'>
+        <MakeButton mutationFn={getPrevious} text='Previous' />
+        <MakeButton mutationFn={getNext} text='Next' />
+        <MakeButton mutationFn={getFlip} text='Flip' />
+        <MakeButton mutationFn={getShuffle} text='Shuffle' />
+        <MakeButton mutationFn={getReset} text='Reset' />
+        <MakeButton mutationFn={getHide} text='Hide' />
       </div>
     </div>
   )
 }
 
 export default Cards
-function makeButton (nextMutation, buttonText) {
-  return (
-    <button
-      onClick={() => {
-        nextMutation.mutate()
-      }}
-    >
-      {buttonText}
-    </button>
-  )
-}

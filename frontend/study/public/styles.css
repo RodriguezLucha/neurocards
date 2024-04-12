@@ -1,3 +1,10 @@
+* {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: medium;
+}
+
 #number {
     font-size: small;
 }
@@ -5,8 +12,9 @@
 #pile {
     font-size: small
 }
+
 #order {
-    font-size: small
+    font-size: small;
 }
 
 #word {
@@ -14,10 +22,25 @@
     padding: 50px;
     text-align: center;
 }
+
 #sentence {
     font-size: x-large;
-    padding: 50px;
     text-align: center;
+}
+
+label {
+    text-align:center
+}
+
+#practiceSentenceIn {
+    margin-top: 50px;
+    padding: 5px;
+    font-size: x-large;
+    width: 70%;
+    outline: none;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 #front {
@@ -25,7 +48,7 @@
 }
 
 #button_container {
-  margin-top: 30px;
+  margin: 30px;
   display: flex;
   justify-content: center;
   align-items: center;

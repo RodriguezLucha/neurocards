@@ -1,6 +1,6 @@
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
-import Cards from './cards'
+import Cards from './Cards'
 
 function App () {
   const queryClient = new QueryClient()

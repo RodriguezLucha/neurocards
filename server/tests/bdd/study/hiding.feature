@@ -26,3 +26,14 @@ Feature: Card hiding
             | 3   | cat          | gato            | A    | yes    |
             | 4   | man          | homem           | A    | no     |
             | 5   | woman        | mulher          | A    | no     |
+    Scenario: Hiding call cards in the pile
+        Given the selected pile is A
+        And the selected card is 1
+        When hiding the current card
+        And hiding the current card
+        And hiding the current card
+        And hiding the current card
+        And hiding the current card
+        And viewing the card
+        Then the selected card will be 0
+

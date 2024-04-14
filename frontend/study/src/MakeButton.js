@@ -6,7 +6,9 @@ export function MakeButton ({ mutationFn, text }) {
   const mutation = useMutation({
     mutationFn: mutationFn,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cardData'] })
+      queryClient
+        .invalidateQueries({ queryKey: ['cardData'] })
+        .then(queryClient.invalidateQueries({ queryKey: ['pileData'] }))
     }
   })
 

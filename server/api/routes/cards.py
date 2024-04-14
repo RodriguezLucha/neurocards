@@ -1,9 +1,23 @@
-from api.models.models import Cards, db
+from api.models.models import Cards, Piles, db
 
 
 def cards():
     cards = db.session.query(Cards).all()
     return [card.to_dict() for card in cards]
+
+
+def piles():
+    piles = (
+        db.session.query(Cards.pile_name)
+        .where(Cards.hidden == False)
+        .group_by(Cards.pile_name)
+    ).all()
+
+    def func(x):
+        return int(x[0])
+
+    piles = sorted(piles, key=func)
+    return [pile[0] for pile in piles]
 
 
 def cards_id(id):

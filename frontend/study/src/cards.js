@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQueries, useQueryClient } from '@tanstack/react-query'
 // import { useHotkeys } from 'react-hotkeys-hook'
-import { useState, useKeyDown } from 'react'
+import { useState } from 'react'
 
 import {
   getCurrent,
@@ -9,11 +9,16 @@ import {
   getFlip,
   getReset,
   getShuffle,
-  getHide
+  getHide,
+  getPiles,
+  getCards,
+  getSwitch
 } from './api'
 import { MakeButton } from './MakeButton'
 
 function Cards () {
+  const queryClient = useQueryClient()
+
   const [count, setCount] = useState(0)
   // useHotkeys('shift+=', () => setCount(count + 1), [count])
   // useHotkeys('shift+-', () => setCount(count - 1), [count])
@@ -22,28 +27,62 @@ function Cards () {
   //   setCount(count + 1)
   // })
 
-  const { isPending, error, data } = useQuery({
-    queryFn: getCurrent,
-    queryKey: ['cardData']
+  const results = useQueries({
+    queries: [
+      {
+        queryFn: getCurrent,
+        queryKey: ['cardData']
+      },
+      {
+        queryFn: getPiles,
+        queryKey: ['pileData']
+      }
+    ]
   })
+  const { isPending, error, data } = results[0]
+  const {
+    isPending: isPendingPile,
+    error: errorPile,
+    data: dataPile
+  } = results[1]
+
   const [practiceInput, setPracticeInput] = useState('')
   // useHotkeys('meta+shift+k', () => setPracticeInput('reset'), [practiceInput])
 
   if (isPending) return 'Loading...'
   if (error) return 'An error has occurred: ' + error.message
+  if (isPendingPile) return 'Loading...'
+  if (errorPile) return 'An error has occurred: ' + error.message
 
   function handleKeyDown (e) {
-    if (e.shiftKey && e.metaKey && e.key == 'k') {
+    if (e.shiftKey && e.metaKey && e.key === 'k') {
       setPracticeInput('')
       setCount(count + 1)
     }
-    if (e.ctrlKey && e.key == 'l') {
+    if (e.ctrlKey && e.key === 'l') {
       setCount(0)
     }
   }
+  console.log(dataPile)
 
   return (
     <div>
+      <label id='pick'>
+        Pick a pile <nbsp></nbsp>
+        <select
+          name='selectedCard'
+          defaultValue={data.pile}
+          onChange={e => {
+            switchPile(e)
+          }}
+        >
+          {/* <option value='orange'>Orange</option> */}
+          {dataPile.map(e => (
+            <option>{e}</option>
+          ))}
+        </select>
+      </label>
+
       <div id='pile'>Pile: {data.pile}</div>
       <div id='number'>#{data.number}</div>
       <div id='order'>Order:{data.card_order.join(', ')}</div>
@@ -76,6 +115,12 @@ function Cards () {
       </div>
     </div>
   )
+
+  function switchPile (e) {
+    getSwitch(e.target.value).then(() =>
+      queryClient.invalidateQueries({ queryKey: ['cardData'] })
+    )
+  }
 }
 
 export default Cards

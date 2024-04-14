@@ -76,6 +76,15 @@ def hide():
     # update order
     state.card_order = remove_element(state.card_order, index)
 
+    if len(state.card_order) == 0:
+        state.index = 0
+        state.card_order = None
+        state.chosen_pile_name = None
+        state.show_front = True
+        session.add(state)
+        session.commit()
+        return {}
+
     if state.index > len(state.card_order) - 1:
         state.index = 0  # pragma: no cover
 
@@ -188,7 +197,11 @@ def switch_pile(pile):
     session = db.session
     state = session.query(State).first()
     state.chosen_pile_name = pile
-    cards = session.query(Cards).where(Cards.pile_name == pile).all()
+    cards = (
+        session.query(Cards)
+        .where((Cards.pile_name == pile) & (Cards.hidden == False))
+        .all()
+    )
     card_numbers = [x.number for x in cards]
     state.index = 0
     state.show_front = True

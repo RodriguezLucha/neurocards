@@ -12,6 +12,9 @@
 #pile {
     font-size: small
 }
+#pick {
+    font-size: small
+}
 
 #order {
     font-size: small;
@@ -56,4 +59,8 @@ label {
 
 button {
     margin: 10px;
+}
+
+select {
+    font-size: small;
 }

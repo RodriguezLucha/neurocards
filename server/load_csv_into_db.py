@@ -2,9 +2,11 @@ import csv
 import os
 
 from api.models.models import Cards, Piles, State
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+load_dotenv()
 url = os.environ["POSTGRES_URL"]
 csv_file_path = os.environ["CSV_PATH"]
 
@@ -57,7 +59,7 @@ with open(csv_file_path, mode="r", encoding="utf-8") as file:
         session.add(card)
         session.commit()
 
-        if (int(number) % 20) == 0:
+        if (int(number) % 10) == 0:
             pile_number += 1
 
 count = session.query(State).count()

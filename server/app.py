@@ -1,8 +1,5 @@
-from flask import Flask
-from flask_migrate import Migrate  # type: ignore
-
 from api.models.models import db
-from api.routes.cards import cards, cards_id
+from api.routes.cards import cards, cards_id, piles
 from api.routes.iteration import (
     current,
     flip,
@@ -14,13 +11,22 @@ from api.routes.iteration import (
     shuffle,
     switch_pile,
 )
+from flask import Flask
+from flask_cors import CORS
+from flask_migrate import Migrate  # type: ignore
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/cards")
 def route_cards():
     return cards()
+
+
+@app.route("/piles")
+def route_piles():
+    return piles()
 
 
 @app.route("/switch/<pile>")
@@ -80,4 +86,4 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="127.0.0.1", port=5003)

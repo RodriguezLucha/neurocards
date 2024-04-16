@@ -1,4 +1,4 @@
-from api.models.models import Cards, Piles, db
+from api.models.models import Cards, db  # type: ignore
 
 
 def cards():
@@ -9,7 +9,7 @@ def cards():
 def piles():
     piles = (
         db.session.query(Cards.pile_name)
-        .where(Cards.hidden == False)
+        .where(Cards.hidden.is_(False))
         .group_by(Cards.pile_name)
     ).all()
 

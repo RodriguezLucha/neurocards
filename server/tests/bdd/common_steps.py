@@ -73,7 +73,7 @@ def the_selected_card_is(card_num, session):
 @when("viewing the card")
 def viewing_the_card(request, client):
     res = client.get("/current")
-    assert res.status_code == 200
+    assert res.status_code == 200, res.status_code
     data = res.json
     request.data = data
 

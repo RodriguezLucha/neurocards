@@ -199,7 +199,7 @@ def switch_pile(pile):
     state.chosen_pile_name = pile
     cards = (
         session.query(Cards)
-        .where((Cards.pile_name == pile) & (Cards.hidden == False))
+        .where((Cards.pile_name == pile) & (Cards.hidden.is_(False)))
         .all()
     )
     card_numbers = [x.number for x in cards]

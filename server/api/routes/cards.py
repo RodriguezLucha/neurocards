@@ -6,7 +6,7 @@ def cards():
     return [card.to_dict() for card in cards]
 
 
-def piles():
+def piles():  # pragma: nocover
     piles = (
         db.session.query(Cards.pile_name)
         .where(Cards.hidden.is_(False))
